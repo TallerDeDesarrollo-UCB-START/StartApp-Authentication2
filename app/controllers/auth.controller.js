@@ -1,22 +1,19 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-const User = db.user;
-const Role = db.role;
-
-const Op = db.Sequelize.Op;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
-  // Save User to Database
-  User.create({
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
-  })
+  // Save user to Database
+  db.user
+    .create({
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, 8),
+    })
     .then((user) => {
       res.send({
-        message: "User was registered successfully!",
+        message: "db.user was registered successfully!",
         id_autenticacion: user.id,
       });
     })
@@ -26,14 +23,15 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  User.findOne({
-    where: {
-      email: req.body.email,
-    },
-  })
+  db.user
+    .findOne({
+      where: {
+        email: req.body.email,
+      },
+    })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        return res.status(404).send({ message: "db.user Not found." });
       }
 
       var passwordIsValid = bcrypt.compareSync(
