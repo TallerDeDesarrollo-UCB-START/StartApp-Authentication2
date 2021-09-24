@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
     .then((user) => {
       res.send({
         message: "db.user was registered successfully!",
-        id_autenticacion: user.id,
+        id_autenticacion: user.id_autenticacion,
       });
     })
     .catch((err) => {
