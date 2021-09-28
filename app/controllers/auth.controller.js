@@ -13,7 +13,7 @@ exports.signup = (req, res) => {
     })
     .then((user) => {
       res.send({
-        message: "db.user was registered successfully!",
+        message: `${req.body.email} was registered successfully!`,
         id_autenticacion: user.id_autenticacion,
       });
     })
@@ -31,7 +31,10 @@ exports.signin = (req, res) => {
     })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "db.user Not found." });
+        return res.status(404).send({
+          accessToken: null,
+          message: `User with the email '${req.body.email}' was not found.`,
+        });
       }
 
       var passwordIsValid = bcrypt.compareSync(
