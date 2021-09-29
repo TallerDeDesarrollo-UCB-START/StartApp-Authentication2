@@ -54,7 +54,7 @@ exports.signin = (req, res) => {
       });
 
       res.status(200).send({
-        id: user.id,
+        id: user.id_autenticacion,
         email: user.email,
         accessToken: token,
       });
