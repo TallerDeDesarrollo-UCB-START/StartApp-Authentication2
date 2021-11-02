@@ -13,6 +13,12 @@ module.exports = (sequelize, Sequelize) => {
       password: {
         type: Sequelize.STRING,
       },
+      tipo: {
+        type: Sequelize.STRING,
+      },
+      idGoogle: {
+        type: Sequelize.STRING,
+      },
     },
     { timestamps: false }
   );
