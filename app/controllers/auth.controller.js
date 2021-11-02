@@ -46,42 +46,79 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  db.user
-    .findOne({
-      where: {
-        email: req.body.email,
-      },
-    })
-    .then((user) => {
-      if (!user) {
-        return res.status(404).send({
-          accessToken: null,
-          message: `User with the email '${req.body.email}' was not found.`,
+  if (req.body.tipo === "google") {
+    db.user
+      .findOne({
+        where: {
+          email: req.body.email,
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({
+            accessToken: null,
+            message: `User with the email '${req.body.email}' was not found.`,
+          });
+        }
+
+        if (req.body.idGoogle !== user.idGoogle) {
+          return res.status(401).send({
+            accessToken: null,
+            message: "Invalid id!",
+          });
+        }
+        var token = jwt.sign({ id: user.id_autenticacion }, config.secret, {
+          expiresIn: 86400, // 24 hours
         });
-      }
 
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!",
+        res.status(200).send({
+          id: user.id_autenticacion,
+          email: user.email,
+          accessToken: token,
         });
-      }
-      var token = jwt.sign({ id: user.id_autenticacion }, config.secret, {
-        expiresIn: 86400, // 24 hours
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
       });
+  }
+  if (req.body.tipo === "normal") {
+    db.user
+      .findOne({
+        where: {
+          email: req.body.email,
+        },
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({
+            accessToken: null,
+            message: `User with the email '${req.body.email}' was not found.`,
+          });
+        }
 
-      res.status(200).send({
-        id: user.id_autenticacion,
-        email: user.email,
-        accessToken: token,
+        var passwordIsValid = bcrypt.compareSync(
+          req.body.password,
+          user.password
+        );
+
+        if (!passwordIsValid) {
+          return res.status(401).send({
+            accessToken: null,
+            message: "Invalid Password!",
+          });
+        }
+        var token = jwt.sign({ id: user.id_autenticacion }, config.secret, {
+          expiresIn: 86400, // 24 hours
+        });
+
+        res.status(200).send({
+          id: user.id_autenticacion,
+          email: user.email,
+          accessToken: token,
+        });
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
       });
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  }
 };
