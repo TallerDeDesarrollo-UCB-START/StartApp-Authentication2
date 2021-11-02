@@ -12,13 +12,19 @@ checkDuplicateEmail = (req, res, next) => {
     });
     return;
   }
-  if (!validatePasswordLength(req.body.password)) {
+  if (
+    req.body.tipo === "normal" &&
+    !validatePasswordLength(req.body.password)
+  ) {
     res.status(400).send({
       message: "The password must have more than 5 characters",
     });
     return;
   }
-  if (!validatePasswordQuantityOfNumbers(req.body.password)) {
+  if (
+    req.body.tipo === "normal" &&
+    !validatePasswordQuantityOfNumbers(req.body.password)
+  ) {
     res.status(400).send({
       message: "The password must at least one number",
     });

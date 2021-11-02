@@ -6,20 +6,43 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save user to Database
-  db.user
-    .create({
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 8),
-    })
-    .then((user) => {
-      res.send({
-        message: `${req.body.email} was registered successfully!`,
-        id_autenticacion: user.id_autenticacion,
+  if (req.body.tipo === "normal") {
+    db.user
+      .create({
+        email: req.body.email,
+        idGoogle: "No aplica",
+        password: bcrypt.hashSync(req.body.password, 8),
+        tipo: req.body.tipo,
+      })
+      .then((user) => {
+        res.send({
+          message: `${req.body.email} was registered successfully!`,
+          id_autenticacion: user.id_autenticacion,
+        });
+      })
+      .catch((err) => {
+        console.log("entra");
+        res.status(500).send({ message: err.message });
       });
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  }
+  if (req.body.tipo === "google") {
+    db.user
+      .create({
+        email: req.body.email,
+        tipo: req.body.tipo,
+        password: "No aplica",
+        idGoogle: req.body.idGoogle,
+      })
+      .then((user) => {
+        res.send({
+          message: `${req.body.email} was registered, using google, successfully!`,
+          id_autenticacion: user.id_autenticacion,
+        });
+      })
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
+      });
+  }
 };
 
 exports.signin = (req, res) => {
