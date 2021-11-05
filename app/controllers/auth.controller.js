@@ -16,7 +16,7 @@ exports.signup = (req, res) => {
       })
       .then((user) => {
         console.log(process.env.FRONT_VALIDATE_URL);
-        mailOptions.to = "juslanvargas@gmail.com";
+        mailOptions.to = user.email;
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
           ${process.env.FRONT_VALIDATE_URL}${user.id_autenticacion}`;
         transporter.sendMail(mailOptions, function (error, info) {});
