@@ -1,11 +1,10 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-
+const { mailOptions, transporter } = require("../config/email.config");
+require("dotenv").config();
 exports.signup = (req, res) => {
-  // Save user to Database
   if (req.body.tipo === "normal") {
     db.user
       .create({
@@ -13,15 +12,20 @@ exports.signup = (req, res) => {
         idGoogle: "No aplica",
         password: bcrypt.hashSync(req.body.password, 8),
         tipo: req.body.tipo,
+        validado: false,
       })
       .then((user) => {
+        console.log(process.env.FRONT_VALIDATE_URL);
+        mailOptions.to = "juslanvargas@gmail.com";
+        mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
+          ${process.env.FRONT_VALIDATE_URL}${user.id_autenticacion}`;
+        transporter.sendMail(mailOptions, function (error, info) {});
         res.send({
           message: `${req.body.email} was registered successfully!`,
           id_autenticacion: user.id_autenticacion,
         });
       })
       .catch((err) => {
-        console.log("entra");
         res.status(500).send({ message: err.message });
       });
   }
@@ -32,6 +36,7 @@ exports.signup = (req, res) => {
         tipo: req.body.tipo,
         password: "No aplica",
         idGoogle: req.body.idGoogle,
+        validado: true,
       })
       .then((user) => {
         res.send({
@@ -43,6 +48,32 @@ exports.signup = (req, res) => {
         res.status(500).send({ message: err.message });
       });
   }
+};
+
+exports.validateAccount = (req, res) => {
+  db.user
+    .findOne({
+      where: {
+        id_autenticacion: req.params.id,
+      },
+    })
+    .then((user) => {
+      user.update({
+        validado: true,
+      });
+      return user;
+    })
+    .then((userEdited) => {
+      res.status(200).send({
+        message: `User with the email '${userEdited.email}' was validated.`,
+        validado: userEdited.validado,
+      });
+    })
+    .catch((err) => {
+      res.status(404).send({
+        message: `Error.`,
+      });
+    });
 };
 
 exports.signin = (req, res) => {
@@ -93,6 +124,12 @@ exports.signin = (req, res) => {
           return res.status(404).send({
             accessToken: null,
             message: `User with the email '${req.body.email}' was not found.`,
+          });
+        }
+        if (user.validado === false) {
+          return res.status(404).send({
+            accessToken: null,
+            message: `User with the email '${req.body.email}' was not validated.`,
           });
         }
 
