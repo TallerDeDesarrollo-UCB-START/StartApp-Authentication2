@@ -16,9 +16,11 @@ exports.signup = (req, res) => {
       })
       .then((user) => {
         mailOptions.to = req.body.email;
+        console.log(req.body.email);
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
-          ${process.env.FRONT_VALIDATE_URL}${user.id_autenticacion}`;
+        https://dev-front-startamericas.web.app/validate/${user.id_autenticacion}`;
         transporter.sendMail(mailOptions, function (error, info) {});
+        console.log(process.env.FRONT_VALIDATE_URL);
         res.send({
           message: `${req.body.email} was registered successfully!`,
           id_autenticacion: user.id_autenticacion,
