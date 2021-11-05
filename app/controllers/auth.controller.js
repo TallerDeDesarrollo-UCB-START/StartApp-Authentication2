@@ -127,7 +127,7 @@ exports.signin = (req, res) => {
           });
         }
         if (user.validado === false) {
-          return res.status(404).send({
+          return res.status(405).send({
             accessToken: null,
             message: `User with the email '${req.body.email}' was not validated.`,
           });
