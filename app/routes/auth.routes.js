@@ -14,6 +14,9 @@ module.exports = function (app) {
     controller.signup
   );
 
+  // sign up in the app
+  app.get("/api/validate/:id", controller.validateAccount);
+
   // sign in in the app
   app.post("/api/auth/signin", controller.signin);
 };
