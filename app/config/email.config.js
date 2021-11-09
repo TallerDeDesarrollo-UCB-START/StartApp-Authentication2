@@ -4,7 +4,7 @@ exports.transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "ucb.start.project@gmail.com",
-    pass: "SomosAgentesDeCambio",
+    pass: "S0m0s.Agentes.De.Cambi0",
   },
 });
 
