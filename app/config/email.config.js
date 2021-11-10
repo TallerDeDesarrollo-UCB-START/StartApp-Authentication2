@@ -10,5 +10,5 @@ exports.transporter = nodemailer.createTransport({
 
 exports.mailOptions = {
   from: "ucb.start.project@gmail.com",
-  subject: "Bienvenid@ a la cominidad de Start Americas Together!",
+  subject: "Bienvenid@ a la comunidad de START Americas Together!",
 };
