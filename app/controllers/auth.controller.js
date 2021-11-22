@@ -66,7 +66,7 @@ exports.recoverAccount = (req, res) => {
     })
     .then((user) => {
       mailOptions.to = req.body.email;
-      mailOptions.text = `Re-estable tu contraseña a traves del siguiente enlace: 
+      mailOptions.text = `Reestablece tu contraseña a través del siguiente enlace: 
     https://dev-front-startamericas.web.app/recover/${Buffer.from(
       user.id_autenticacion
     ).toString("base64")}`;
