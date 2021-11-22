@@ -4,6 +4,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
 require("dotenv").config();
+
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
     db.user
@@ -51,6 +52,40 @@ exports.signup = (req, res) => {
   }
 };
 
+exports.recoverAccount = (req, res) => {
+  db.user
+    .findOne({
+      where: {
+        email: req.body.email,
+      },
+    })
+    .then((user) => {
+      if (user.tipo === "google") throw new Error("google");
+
+      return user;
+    })
+    .then((user) => {
+      mailOptions.to = req.body.email;
+      mailOptions.text = `Re-estable tu contraseña a traves del siguiente enlace: 
+    https://dev-front-startamericas.web.app/recover/${Buffer.from(
+      user.id_autenticacion
+    ).toString("base64")}`;
+      transporter.sendMail(mailOptions, function (error, info) {});
+      console.log(process.env.FRONT_VALIDATE_URL);
+      res.send({
+        message: `${req.body.email} message sended!`,
+        id_autenticacion: user.id_autenticacion,
+      });
+    })
+    .catch((err) => {
+      if (err.message === "google")
+        res.status(401).send({
+          message: "Solo de editar las cuentas creadas de manera manual",
+        });
+      else res.status(401).send({ message: "La cuenta no existe" });
+    });
+};
+
 exports.validateAccount = (req, res) => {
   db.user
     .findOne({
@@ -73,6 +108,33 @@ exports.validateAccount = (req, res) => {
     .catch((err) => {
       res.status(404).send({
         message: `Error.`,
+      });
+    });
+};
+
+exports.updatePassword = (req, res) => {
+  db.user
+    .findOne({
+      where: {
+        id_autenticacion: Buffer.from(req.params.id, "base64").toString(
+          "ascii"
+        ),
+      },
+    })
+    .then((user) => {
+      user.update({
+        password: bcrypt.hashSync(req.body.password, 8),
+      });
+      return user;
+    })
+    .then((userEdited) => {
+      res.status(200).send({
+        message: `User with the email '${userEdited.email}' was updated.`,
+      });
+    })
+    .catch((err) => {
+      res.status(401).send({
+        message: err.message,
       });
     });
 };
