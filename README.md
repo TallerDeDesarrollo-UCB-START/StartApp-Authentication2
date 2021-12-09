@@ -95,7 +95,7 @@ Los controladores interactúan con la base de datos PostgreSQL a través de Sequ
 Podriamos decir que sigue una Arquitectura del Tipo MVC.
 </details>
 
-[API deploy on heroku]: https://startamericastogether.herokuapp.com/
+[API deploy on heroku]: https://dev-auth-db2.herokuapp.com/
 
 🏡 [API Deploy on Heroku][API deploy on heroku]
 
