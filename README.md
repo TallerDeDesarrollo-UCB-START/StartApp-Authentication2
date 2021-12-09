@@ -1,52 +1,54 @@
-# StartApp-Authentication2 :earth_americas: :lock: :key: :earth_americas:
+# StartApp-Authentication :earth_americas: :lock: :key:
+<img alt="Logo" align="right" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTu1tfJ2N0SENG9G86Avbt6qN59vXLDAFYggA5IrspoOX4Q_irRB18laR-At4dTKZyG6VI&usqp=CAU" width="20%" />
 
-## Comando para instalar paquetes
+<details>
+  <summary><strong>Comandos para Inicializar</strong></summary>
+
+### Comando para instalar paquetes
 npm install  
-## Comando para correr aplicacion
+### Comando para correr aplicacion
 node server.js --Comienza a escuchar en el puerto 8080--
+
+</details>
+
 <details>
     <summary><strong>Tecnologías Involucradas</strong></summary>
 
 ### Node.js
+[![Node Version](https://img.shields.io/badge/Node-v15.8.0-green)](https://nodejs.org/docs/latest-v15.x/api/)
 Es un entorno en tiempo de ejecución multiplataforma, de código abierto, para la capa del servidor basado en el lenguaje de programación JavaScript, asíncrono, con E/S de datos en una arquitectura orientada a eventos y basado en el motor V8 de Google
-#### Pagina oficial de Node.js: 
-* https://nodejs.org/es/
-### Express 
+### Express
+[![Express](https://img.shields.io/badge/Bcryptjs-v.4.17.1-ff69b4)](https://expressjs.com/es/) 
 Es un marco de aplicación web de back-end para Node.js. Está diseñado para crear aplicaciones web y API. Se lo utiliza principalmente para hacer los HTTP requests
-#### Pagina oficial de Express: 
-* https://expressjs.com/es/
 #### Carpetas donde se uso de la tecnología dentro de la aplicación:
 * server.js
-### bcryptjs
+### Bcryptjs
+[![Bcryptjs](https://img.shields.io/badge/Bcryptjs-v.2.4.3-blueviolet)](https://www.npmjs.com/package/bcryptjs)
 Es un module de node.js que permite hacer encriptaciones. Se utiliza para encriptar el password recibido
-#### Pagina oficial de bcryptjs: 
-* https://www.npmjs.com/package/bcryptjs
 #### Carpetas donde se uso de la tecnología dentro de la aplicación:
 * app/controllers/auth.controller.js
-### jsonwebtoken
+### Jsonwebtoken
+[![Jsonwebtoken](https://img.shields.io/badge/Jsonwebtoken-v.8.5.1-brightgreen)](https://www.npmjs.com/package/jsonwebtoken)
 JSON Web Token es un estándar abierto basado en JSON propuesto por IETF para la creación de tokens de acceso que permiten la propagación de identidad y privilegios o claims. Se utiliza para la creación de Tokens. 
-#### Pagina oficial de jsonwebtoken: 
-* https://www.npmjs.com/package/jsonwebtoken
 #### Carpetas donde se uso de la tecnología dentro de la aplicación:
 * app/controllers/auth.controller.js
 ### Sequelize
+[![Sequelize](https://img.shields.io/badge/Sequelize-v.6.6.5-green)](https://sequelize.org/)
 Sequelize es un ORM de Node.js basado en promesas para Postgres, MySQL, MariaDB, SQLite y Microsoft SQL Server. Cuenta con un sólido soporte de transacciones, relaciones, carga ansiosa y perezosa, replicación de lectura y más. Se utiliza para interactuar con Postgres
-#### Pagina oficial de Sequelize: 
-* https://sequelize.org/
 
 #### Carpetas donde se uso de la tecnología dentro de la aplicación:
 * app/models/index.js
 * app/models/user.model.js
 ### PostgreSQL
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.8.7.1-important)](https://www.postgresql.org/)
  Es un sistema de gestión de bases de datos relacional orientado a objetos y de código abierto. 
-#### Pagina oficial de PostgreSQL: 
-* https://www.postgresql.org/
 ### Nodemailer
-Es un módulo de Node.js que nos permite hacer él envió de correos electrónicos. Esto se utiliza en las siguientes ocasiones:
+[![Node Mailer](https://img.shields.io/badge/NodeMailer-v.6.7.0-red)](https://nodemailer.com/about/)
+
+Es un módulo de Node.js que nos permite hacer él envió de correos electrónicos. Esto se utiliza en las siguientes ocasiones:  
 * Cuando un usuario se registra de manera regular (Sin hacerlo mediante Google). En ese caso se le envía un correo de confirmación a su cuenta
 * Cuando un usuario registrado de manera regular, desea cambiar su contraseña 
-#### Pagina oficial de Nodemailer: 
-* https://nodemailer.com/about/
+
 #### Carpetas donde se uso de la tecnología dentro de la aplicación:
 * app/config/email.config.js
 * app/controllers/auth.controller.js
@@ -93,3 +95,9 @@ Los controladores interactúan con la base de datos PostgreSQL a través de Sequ
 Podriamos decir que sigue una Arquitectura del Tipo MVC.
 </details>
 
+[API deploy on heroku]: https://startamericastogether.herokuapp.com/
+
+🏡 [API Deploy on Heroku][API deploy on heroku]
+
+
+[![Stake Holder](https://img.shields.io/badge/Cliente-StartAmericasTogether-blue)](https://www.startamericastogether.org/)
