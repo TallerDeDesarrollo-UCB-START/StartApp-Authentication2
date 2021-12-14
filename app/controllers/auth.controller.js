@@ -67,9 +67,9 @@ exports.recoverAccount = (req, res) => {
     .then((user) => {
       mailOptions.to = req.body.email;
       mailOptions.text = `Reestablece tu contraseña a través del siguiente enlace: 
-    https://dev-front-startamericas.web.app/recover/${Buffer.from(
-      user.id_autenticacion
-    ).toString("base64")}`;
+      https://startamericastogether.web.app/recover/${Buffer.from(
+        user.id_autenticacion
+      ).toString("base64")}`;
       transporter.sendMail(mailOptions, function (error, info) {});
       console.log(process.env.FRONT_VALIDATE_URL);
       res.send({
