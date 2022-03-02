@@ -20,7 +20,13 @@ exports.signup = (req, res) => {
         console.log(req.body.email);
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
         https://startamericastogether.web.app/validate/${user.id_autenticacion}`;
-        transporter.sendMail(mailOptions, function (error, info) {});
+        transporter.sendMail(mailOptions, 
+        function (error, info) 
+          {
+              if (error) console.log( error );
+              else console.log(response);
+          }
+        );
         console.log(process.env.FRONT_VALIDATE_URL);
         res.send({
           message: `${req.body.email} was registered successfully!`,
