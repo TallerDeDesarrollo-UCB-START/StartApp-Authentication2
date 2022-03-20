@@ -1,9 +1,9 @@
 module.exports = {
-  HOST: "ec2-54-156-24-159.compute-1.amazonaws.com",
+  HOST: "ec2-34-199-209-37.compute-1.amazonaws.com",
   PORT: 5432,
-  USER: "hsazteibnsnquc",
-  PASSWORD: "96c44f19b6a31a67521c2fa65c9233544ed1d7d5388367c6d9ff4c22c940a340",
-  DB: "d5mjf648gc2p7f",
+  USER: "abljdtipxtfxkr",
+  PASSWORD: "78738cdd773fadbcd7add9091f3599a63aef0b9418b391b9d243d60af2c481b8",
+  DB: "dbai369fgoe9vk",
   dialect: "postgres",
   operatorsAliases: 0,
   ssl: true,
