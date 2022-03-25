@@ -24,4 +24,8 @@ module.exports = function (app) {
   app.post("/api/recover", controller.recoverAccount);
   //update password
   app.put("/api/recover/:id", controller.updatePassword);
+
+  app.get("/actions", (req, res) => {
+    res.json({ message: "El github actions ta joya" });
+  });
 };
