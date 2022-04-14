@@ -1,11 +1,16 @@
 var nodemailer = require("nodemailer");
+var smtpTransport = require('nodemailer-smtp-transport');
 
 exports.transporter = nodemailer.createTransport({
+  secure:true,
+  port:465,
   service: "gmail",
   auth: {
-    user: "ucb.start.project2@gmail.com",
-    pass: "S0m0s.Agentes.De.Cambi0",
+    user: "greatfrogman1@gmail.com",
+    pass: "Seal4ever",
   },
+  debug: true,
+  logger: true
 });
 
 exports.mailOptions = {
