@@ -4,8 +4,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
 require("dotenv").config();
-//var url_cambio=`https://dev-front-startamericas.web.app`
-var url_cambio=`http://localhost:3000`
+var url_cambio=`https://dev-front-startamericas.web.app`
 
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
@@ -137,8 +136,7 @@ exports.updatePassword = (req, res) => {
     })
     .then((user) => {
       user.update({
-        password: req.body.password,
-        //password: bcrypt.hashSync(req.body.password, 8),
+        password: bcrypt.hashSync(req.body.password, 8),
       });
       return user;
     })
