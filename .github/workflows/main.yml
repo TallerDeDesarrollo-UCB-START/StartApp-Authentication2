@@ -1,12 +1,16 @@
-name: Deploy
+name: Deploy to Heroku
 
 on:
   push:
     branches:
       - develop
-
+    pull_request:
+      - develop
 jobs:
-  build:
+  deploy_to_heroku:
+    name: Deploy to develop
+    environment:
+      name: desarrollo
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,3 +19,25 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "dev-auth-db2" #Must be unique in Heroku
           heroku_email: "ucb.start.project@gmail.com"
+
+  sonarcloud:
+    name: Build (Sonar Cloud)
+    needs: [deploy_to_heroku]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '15'
+    - name: Node install dependencies
+      run: npm install
+#    - name: Run unit tests
+#      run: npm run test 
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
