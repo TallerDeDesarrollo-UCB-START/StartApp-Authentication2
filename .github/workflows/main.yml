@@ -7,28 +7,33 @@ on:
     pull_request:
       - develop
 jobs:
-  deploy_to_heroku:
+  deploy_to_heroku_develop:
     name: Deploy to develop
     environment:
       name: desarrollo
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout develop
+        uses: actions/checkout@v1
+        with:
+          ref: 'develop'
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY_DEPLOY}}
           heroku_app_name: "dev-auth-db2" #Must be unique in Heroku
           heroku_email: "ucb.start.project@gmail.com"
 
   sonarcloud:
     name: Build (Sonar Cloud)
-    needs: [deploy_to_heroku]
+    needs: [deploy_to_heroku_develop]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
         # Disabling shallow clone is recommended for improving relevancy of reporting
         fetch-depth: 0
+        ref: 'develop'
     - uses: actions/setup-node@v2
       with:
         node-version: '15'
@@ -41,3 +46,19 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy_to_heroku_master:
+    name: Deploy to master
+    needs: [deploy_to_heroku_develop, sonarcloud]
+    environment:
+      name: produccion
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'master'
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY_DEPLOY}}
+          heroku_app_name: "startappauth"
+          heroku_email: "ucb.start.project@gmail.com"

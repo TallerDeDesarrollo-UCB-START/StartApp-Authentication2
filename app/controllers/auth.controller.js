@@ -4,7 +4,6 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
 require("dotenv").config();
-var url_cambio=`https://dev-front-startamericas.web.app`
 
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
@@ -20,14 +19,8 @@ exports.signup = (req, res) => {
         mailOptions.to = req.body.email;
         console.log(req.body.email);
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
-        ${url_cambio}/validate/${user.id_autenticacion}`;
-        transporter.sendMail(mailOptions, 
-        function (error, info) 
-          {
-              if (error) console.log( error );
-              else console.log(response);
-          }
-        );
+        https://startamericastogether.web.app/validate/${user.id_autenticacion}`;
+        transporter.sendMail(mailOptions, function (error, info) {});
         console.log(process.env.FRONT_VALIDATE_URL);
         res.send({
           message: `${req.body.email} was registered successfully!`,
@@ -74,17 +67,11 @@ exports.recoverAccount = (req, res) => {
     .then((user) => {
       mailOptions.to = req.body.email;
       mailOptions.text = `Reestablece tu contraseña a través del siguiente enlace: 
-      ${url_cambio}/recover/${Buffer.from(
+      https://startamericastogether.web.app/recover/${Buffer.from(
         user.id_autenticacion
       ).toString("base64")}`;
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }    
-      });
-      console.log("url: "+process.env.FRONT_VALIDATE_URL);
+      transporter.sendMail(mailOptions, function (error, info) {});
+      console.log(process.env.FRONT_VALIDATE_URL);
       res.send({
         message: `${req.body.email} message sended!`,
         id_autenticacion: user.id_autenticacion,
@@ -141,15 +128,6 @@ exports.updatePassword = (req, res) => {
       return user;
     })
     .then((userEdited) => {
-      mailOptions.to = userEdited.email;
-      mailOptions.text = `Se reestablecio su contraseña `;
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }    
-      });
       res.status(200).send({
         message: `User with the email '${userEdited.email}' was updated.`,
       });
