@@ -3,7 +3,6 @@ const config = require("../config/auth.config");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
-require("dotenv").config();
 var url_cambio=`https://dev-front-startamericas.web.app`
 
 exports.signup = (req, res) => {
