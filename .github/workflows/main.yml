@@ -20,6 +20,7 @@ jobs:
           heroku_app_name: "dev-auth-db2" #Must be unique in Heroku
           heroku_email: "ucb.start.project@gmail.com"
 
+
   sonarcloud:
     name: Build (Sonar Cloud)
     needs: [deploy_to_heroku]
