@@ -107,5 +107,4 @@ Podriamos decir que sigue una Arquitectura del Tipo MVC.
 
 🏡 [API Deploy on Heroku][API deploy on heroku]
 
-
 [![Stake Holder](https://img.shields.io/badge/Cliente-StartAmericasTogether-blue)](https://www.startamericastogether.org/)
