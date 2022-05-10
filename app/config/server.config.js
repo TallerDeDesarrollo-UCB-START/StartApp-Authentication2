@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
 
 // init app
 const app = express();
@@ -18,6 +17,10 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
+
+
+
 
 exports.app = app;
 exports.localhostPort = localhostPort;

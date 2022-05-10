@@ -3,7 +3,7 @@ const config = require("../config/auth.config");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
-var url_cambio=`https://dev-front-startamericas.web.app`
+var url_cambio= process.env.URL_CAMBIO;
 
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
               else console.log(response);
           }
         );
-        console.log(process.env.FRONT_VALIDATE_URL);
+        // console.log(process.env.FRONT_VALIDATE_URL);
         res.send({
           message: `${req.body.email} was registered successfully!`,
           id_autenticacion: user.id_autenticacion,
@@ -83,7 +83,7 @@ exports.recoverAccount = (req, res) => {
           console.log('Email sent: ' + info.response);
         }    
       });
-      console.log("url: "+process.env.FRONT_VALIDATE_URL);
+      // console.log("url: "+process.env.FRONT_VALIDATE_URL);
       res.send({
         message: `${req.body.email} message sended!`,
         id_autenticacion: user.id_autenticacion,

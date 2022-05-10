@@ -1,5 +1,6 @@
 var nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
+require("dotenv").config();
 
 exports.transporter = nodemailer.createTransport({
   secure:true,
