@@ -18,7 +18,6 @@ exports.signup = (req, res) => {
       })
       .then((user) => {
         mailOptions.to = req.body.email;
-        console.log(req.body.email);
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
         ${url_cambio}/validate/${user.id_autenticacion}`;
         transporter.sendMail(mailOptions, 
@@ -28,14 +27,13 @@ exports.signup = (req, res) => {
               else console.log(response);
           }
         );
-        console.log(process.env.FRONT_VALIDATE_URL);
         res.send({
-          message: `${req.body.email} was registered successfully!`,
+          message: `${req.body.email} fue registrado exitosamente!`,
           id_autenticacion: user.id_autenticacion,
         });
       })
-      .catch((err) => {
-        res.status(500).send({ message: err.message });
+      .catch((error) => {
+        res.status(500).send({ message: error.message });
       });
   }
   if (req.body.tipo === "google") {
@@ -49,12 +47,12 @@ exports.signup = (req, res) => {
       })
       .then((user) => {
         res.send({
-          message: `${req.body.email} was registered, using google, successfully!`,
+          message: `${req.body.email} fue registrado, usando google, exitosamente!`,
           id_autenticacion: user.id_autenticacion,
         });
       })
-      .catch((err) => {
-        res.status(500).send({ message: err.message });
+      .catch((error) => {
+        res.status(500).send({ message: error.message });
       });
   }
 };
@@ -68,7 +66,6 @@ exports.recoverAccount = (req, res) => {
     })
     .then((user) => {
       if (user.tipo === "google") throw new Error("google");
-
       return user;
     })
     .then((user) => {
@@ -84,18 +81,17 @@ exports.recoverAccount = (req, res) => {
           console.log('Email sent: ' + info.response);
         }    
       });
-      console.log("url: "+process.env.FRONT_VALIDATE_URL);
       res.send({
-        message: `${req.body.email} message sended!`,
+        message: `${req.body.email} mensaje enviado!`,
         id_autenticacion: user.id_autenticacion,
       });
     })
-    .catch((err) => {
-      if (err.message === "google")
+    .catch((error) => {
+      if (error.message === "google")
         res.status(401).send({
-          message: "Solo de editar las cuentas creadas de manera manual",
+          message: "Solo se puede editar las cuentas creadas de manera manual o normal.",
         });
-      else res.status(401).send({ message: "La cuenta no existe" });
+      else res.status(401).send({ message: "La cuenta no existe." });
     });
 };
 
@@ -114,13 +110,12 @@ exports.validateAccount = (req, res) => {
     })
     .then((userEdited) => {
       res.status(200).send({
-        message: `User with the email '${userEdited.email}' was validated.`,
+        message: `Usuario con email '${userEdited.email}' fue validado.`,
         validado: userEdited.validado,
       });
     })
-    .catch((err) => {
-      res.status(404).send({
-        message: `Error.`,
+    .catch((error) => {
+      res.status(404).send({message: `Error no se hayo la cuenta para validar.`,
       });
     });
 };
@@ -135,6 +130,7 @@ exports.updatePassword = (req, res) => {
       },
     })
     .then((user) => {
+      if (user.tipo === "google") throw new Error("google");
       user.update({
         password: bcrypt.hashSync(req.body.password, 8),
       });
@@ -151,13 +147,16 @@ exports.updatePassword = (req, res) => {
         }    
       });
       res.status(200).send({
-        message: `User with the email '${userEdited.email}' was updated.`,
+        message: `Usuario con el email '${userEdited.email}' fue actualizado.`,
       });
     })
-    .catch((err) => {
+    .catch((error) => {
+      if (error.message === "google")
       res.status(401).send({
-        message: err.message,
+        message: "Solo se puede editar las cuentas creadas de manera manual o normal.",
       });
+    else res.status(401).send({message: error.message,
+});
     });
 };
 
@@ -173,14 +172,14 @@ exports.signin = (req, res) => {
         if (!user) {
           return res.status(404).send({
             accessToken: null,
-            message: `User with the email '${req.body.email}' was not found.`,
+            message: `Usuario con el email '${req.body.email}' no fue encontrado.`,
           });
         }
 
         if (req.body.idGoogle !== user.idGoogle) {
           return res.status(401).send({
             accessToken: null,
-            message: "Invalid id!",
+            message: "Id invalido!",
           });
         }
         var token = jwt.sign({ id: user.id_autenticacion }, config.secret, {
@@ -193,8 +192,8 @@ exports.signin = (req, res) => {
           accessToken: token,
         });
       })
-      .catch((err) => {
-        res.status(500).send({ message: err.message });
+      .catch((error) => {
+        res.status(500).send({ message: error.message });
       });
   }
   if (req.body.tipo === "normal") {
@@ -208,13 +207,13 @@ exports.signin = (req, res) => {
         if (!user) {
           return res.status(404).send({
             accessToken: null,
-            message: `User with the email '${req.body.email}' was not found.`,
+            message: `El usuario con el email '${req.body.email}' no fue encontrado.`,
           });
         }
         if (user.validado === false) {
           return res.status(405).send({
             accessToken: null,
-            message: `User with the email '${req.body.email}' was not validated.`,
+            message: `El usuario con el email '${req.body.email}' no fue validado.`,
           });
         }
 
@@ -226,7 +225,7 @@ exports.signin = (req, res) => {
         if (!passwordIsValid) {
           return res.status(401).send({
             accessToken: null,
-            message: "Invalid Password!",
+            message: "Contraseña invalida.",
           });
         }
         var token = jwt.sign({ id: user.id_autenticacion }, config.secret, {
@@ -239,8 +238,8 @@ exports.signin = (req, res) => {
           accessToken: token,
         });
       })
-      .catch((err) => {
-        res.status(500).send({ message: err.message });
+      .catch((error) => {
+        res.status(500).send({ message: error.message });
       });
   }
 };
