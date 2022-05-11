@@ -14,11 +14,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          ls -al
+          touch .env
+          echo AUTH_SECRET=${{ secrets.AUTH_SECRET }} >> .env
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo DB_USER=${{ secrets.DB_USER }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo DB_DIALECT=${{ secrets.DB_DIALECT }} >> .env
+          echo EMAIL_PORT=${{ secrets.EMAIL_PORT }} >> .env
+          echo EMAIL_SERVICE=${{ secrets.EMAIL_SERVICE }} >> .env
+          echo EMAIL_AUTH_USER=${{ secrets.EMAIL_AUTH_USER }} >> .env
+          echo EMAIL_AUTH_PASS=${{ secrets.EMAIL_AUTH_PASS }} >> .env
+          cat .env
+          ls -al
+      - run: npm install
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY_DEPLOY}}
           heroku_app_name: "dev-auth-db2" #Must be unique in Heroku
           heroku_email: "ucb.start.project@gmail.com"
+
 
   sonarcloud:
     name: Build (Sonar Cloud)

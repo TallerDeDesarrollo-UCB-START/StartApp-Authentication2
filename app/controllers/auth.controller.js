@@ -4,7 +4,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
 require("dotenv").config();
-var url_cambio=`https://dev-front-startamericas.web.app`
+var url_cambio=process.env.URL_CAMBIO
 
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
