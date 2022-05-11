@@ -1,6 +1,7 @@
 //dependencies
 require("body-parser");
 require("./app/models");
+require("dotenv").config();
 
 // server init
 const { app, localhostPort } = require("./app/config/server.config");
@@ -33,3 +34,4 @@ console.log(process.env.EMAIL_PORT)
 console.log(process.env.EMAIL_SERVICE)
 console.log(process.env.EMAIL_AUTH_USER)
 console.log(process.env.EMAIL_AUTH_PASS)
+console.log(process.env.URL_CAMBIO)
