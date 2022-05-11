@@ -4,6 +4,7 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const { mailOptions, transporter } = require("../config/email.config");
 require("dotenv").config();
+var url_cambio=process.env.URL_CAMBIO
 
 exports.signup = (req, res) => {
   if (req.body.tipo === "normal") {
@@ -19,7 +20,7 @@ exports.signup = (req, res) => {
         mailOptions.to = req.body.email;
         console.log(req.body.email);
         mailOptions.text = `Valida tu cuenta ingresando al siguiente enlace: 
-        https://startamericastogether.web.app/validate/${user.id_autenticacion}`;
+        ${url_cambio}/validate/${user.id_autenticacion}`;
         transporter.sendMail(mailOptions,
           function (error, info) 
           {
@@ -72,7 +73,7 @@ exports.recoverAccount = (req, res) => {
     .then((user) => {
       mailOptions.to = req.body.email;
       mailOptions.text = `Reestablece tu contraseña a través del siguiente enlace: 
-      https://startamericastogether.web.app/recover/${Buffer.from(
+      ${url_cambio}/recover/${Buffer.from(
         user.id_autenticacion
       ).toString("base64")}`;
       transporter.sendMail(mailOptions, function (error, info) {});
