@@ -8,7 +8,7 @@ const db = require("../models");
 checkDuplicateEmail = (req, res, next) => {
   if (!validateEmail(req.body.email)) {
     res.status(400).send({
-      message: "The email doesn't have the correct format",
+      message: "El email no tiene el correcto formato.",
     });
     return;
   }
@@ -17,7 +17,7 @@ checkDuplicateEmail = (req, res, next) => {
     !validatePasswordLength(req.body.password)
   ) {
     res.status(400).send({
-      message: "The password must have more than 5 characters",
+      message: "La contraseña deberia tener mas de 5 caracteres.",
     });
     return;
   }
@@ -26,7 +26,7 @@ checkDuplicateEmail = (req, res, next) => {
     !validatePasswordQuantityOfNumbers(req.body.password)
   ) {
     res.status(400).send({
-      message: "The password must at least one number",
+      message: "La contraseña deberia tener al menos un numero.",
     });
     return;
   }
@@ -40,7 +40,7 @@ checkDuplicateEmail = (req, res, next) => {
     .then((user) => {
       if (user) {
         res.status(400).send({
-          message: "Failed! Email is already in use!",
+          message: "Falla! Email ya esta en uso!",
         });
         return;
       }
