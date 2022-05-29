@@ -19,6 +19,7 @@ jobs:
           ref: 'develop'
       - uses: actions/checkout@v2
       - run: |
+          rm .env
           touch .env
           echo AUTH_SECRET=${{ secrets.AUTH_SECRET }} >> .env
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
@@ -74,6 +75,7 @@ jobs:
         with:
           ref: 'master'
       - run: |
+          rm .env
           touch .env
           echo AUTH_SECRET=${{ secrets.AUTH_SECRET }} >> .env
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
