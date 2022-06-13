@@ -33,6 +33,7 @@ jobs:
           echo EMAIL_AUTH_USER=${{ secrets.EMAIL_AUTH_USER }} >> .env
           echo EMAIL_AUTH_PASS=${{ secrets.EMAIL_AUTH_PASS }} >> .env
           echo URL_CAMBIO=${{ secrets.URL_CAMBIO }} >> .env
+          echo EMAIL_SERVICE_HOST=${{secrets.EMAIL_SERVICE_HOST}} >> .env
           cat .env
       - run: npm install
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
