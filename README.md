@@ -73,7 +73,7 @@ Esta parte del código nos ayudara para comunicarnos con otros paquetes, program
 * Validacion de Sign Up
 #### Controllers
 Aqui se aplica toda la logica para los endpoints, que son redireccionados en la carpeta de **Routes**
-* Maneja las acciones de Sign Up & Sign In
+* Maneja las acciones de Sign Up & Sign In.
 * Recovery de passwords
 * Cambio de contraseñas
 #### Models
